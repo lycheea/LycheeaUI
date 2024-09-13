@@ -3,8 +3,6 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "../../firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,22 +13,6 @@ export default function Login() {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setError("");
-
-    try {
-      const credential = await signInWithEmailAndPassword(getAuth(app), email, password);
-      const idToken = await credential.user.getIdToken();
-
-      await fetch("/api/signin", {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
-
-      router.push("/");
-    } catch (e) {
-      console.error("Error logging in: ", e);
-      setError("Email or password is invalid.");
-    }
   }
 
   return (

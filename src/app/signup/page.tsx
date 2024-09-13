@@ -3,8 +3,6 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../../firebase";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
@@ -26,13 +24,6 @@ export default function SignUp() {
     }
 
     // TODO: Add validation logic here
-
-    try {
-      await createUserWithEmailAndPassword(getAuth(app), email, password);
-    } catch (error) {
-      setError(error.message);
-      return;
-    }
 
     router.push("/signin");
   }
